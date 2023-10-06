@@ -1,0 +1,43 @@
+{
+    "images" : {
+        "home" : [
+            {
+                "img" : "http://192.168.42.73/jobs/image/image2.webp",
+                "name" : "first"
+            },
+            {
+                "img" : "http://192.168.42.73/jobs/image/image3.jpg",
+                "name" : "second"
+            },
+            {
+                "img" : "http://192.168.42.73/jobs/image/jobs.png",
+                "name" : "third"                
+            },
+            {
+                "img" : "http://192.168.42.73/jobs/image/load.gif",
+                "name" : "fourth"                
+            },
+            {
+                "img" : "http://192.168.42.73/jobs/image/employer.jpg",
+                "name" : "fifth"                
+            }
+        ],
+    "logo" : "http://192.168.42.73/jobs/image/apple-touch-icon.png",
+    "pin" : "http://192.168.42.73/jobs/image/kitty.png",
+    "name" : [
+        { 
+            "img" : "http://192.168.42.73/jobs/image/image.jpeg",
+            "name" : "first"
+        },
+        {
+            "img" : "http://192.168.42.73/jobs/image/image.webp",
+            "name" : "second"
+        },
+        {
+            "img" : "http://192.168.42.73/jobs/image/image2.webp",
+            "name" : "third"
+        }
+
+    ]
+    }
+}
