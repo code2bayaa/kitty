@@ -1,9 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, Image, useMemo } from 'react';
 import { View, Text, TouchableOpacity, ToastAndroid, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import styles, { COLORS } from '../../styles';
 import useFetch from '../../hooks/useFetch';
+// import useSession from '../../hooks/useSession';
+
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+// Create a QueryClient instance
+const queryClient = new QueryClient();
 import { URL } from '@env';
 
 // interface Job {
@@ -25,15 +31,16 @@ export default function Jobs() {
 
   const navigation = useNavigation();
 
-  const { loading, data, error, fetchData } = useFetch()
+  const { loading, error, fetchData } = useFetch()
+  // const [data, setData] = useState({})
   // const { success } = data;
 
-  const applyJob = ({ id }) => {
+  const applyJob = async({ id }) => {
 
     // setIdNo(id)
     // setJob(true)
     // useEffect(() => {    
-      fetchData(
+      const apply = await fetchData(
         {
           // go : job,
           url: `${ URL }/jobs/php/index.php`,
@@ -43,7 +50,7 @@ export default function Jobs() {
       )
     // },[fetchData]
     // )
-    if (apply.data.success) {
+    if (apply.success) {
       ToastAndroid.show('Successfully applied', 2000);
     }
   };
@@ -56,8 +63,10 @@ export default function Jobs() {
     //   method: 'POST',
     //   query: JSON.stringify({ 'jobs_all': true }),
     // });
-    useEffect(() => {
-        fetchData(
+    const data = useMemo(async() => {
+      console.log('effect')
+      // const go = async()=>{
+        await fetchData(
           {
             // go : job,
             url: `${ URL }/jobs/php/index.php`,
@@ -65,16 +74,33 @@ export default function Jobs() {
             query: JSON.stringify({ 'jobs_all' : true }),
           }      
         )
-      },[fetchData]
+        // console.log(data)
+        
+      // }
+      // go()
+        // console.log(bind)
+      },[]
     )
 
 
+    // async function go(){
+    //   fetchData(
+    //       {
+    //         // go : job,
+    //         url: `${ URL }/jobs/php/index.php`,
+    //         method: 'POST',
+    //         query: JSON.stringify({ 'jobs_all' : true }),
+    //       }      
+    //   )
+    // }
+    // go()
     if (error) {
       console.log('error' + error);
     }
 
     // if(data.hasOwnProperty('jobs'))
     //   setJobsData(data.jobs)
+    console.log('jobs')
     console.log(data)
     // return data;
   // }
@@ -91,11 +117,10 @@ export default function Jobs() {
   //   const fetchData = async () => {
 
   //   };
-  // useEffect(() => {
-  //   fetchJobs();
-  // }, []);
+
 
   return (
+    <QueryClientProvider client={queryClient}>
     <ScrollView style={{ ...styles.body, ...styles.wall }}>
       {
         (data.hasOwnProperty('jobs'))
@@ -103,7 +128,7 @@ export default function Jobs() {
           data.jobs.map(a => (
             <View style={{ ...styles.mediumWall, flex : 1, ...styles.shadow, ...styles.left, marginBottom : '5%' }} key = {a.jobId}>
               <Text style={styles.h1}>{a.job_title}</Text>
-              <Text style={styles.h2}>{a.job_employer}</Text>
+              <Text style={styles.h2}>Employer : {a.job_employer.toUpperCase()}</Text>
               {a.job_qualifications.length > 0 ? (
                 <Text style={{...styles.h2, margin : 0}}> {a.job_qualifications.join(' || ')} </Text>
               ) : (
@@ -137,8 +162,15 @@ export default function Jobs() {
             </View>
           ))
         :
-          <Text>NO JOBS</Text>
+          (
+            <View>
+              {/* <Image source = { require('../../assets/load.gif') } style = { {  ...styles.imageCenter }} /> */}
+              <Text>NO JOBS</Text>
+            </View>
+          )
+
     }
     </ScrollView>
+    </QueryClientProvider>
   );
 }

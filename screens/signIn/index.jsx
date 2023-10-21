@@ -8,27 +8,35 @@ import {
   Keyboard,
   Image
 } from 'react-native';
+// import { QueryClient, QueryClientProvider } from 'react-query';
+
 import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native'
 import RNModal from 'react-native-modal'
 import LinearGradient from 'react-native-linear-gradient';
 
+//CONNECT STATE SESSION
+import { connect } from 'react-redux';
+import { updateMyState } from '../../constants/redux/action';
 
 import styles, { COLORS } from '../../styles'
 import images from '../../constants/gallery'
 import useFetch from '../../hooks/useFetch';
-import useSession from '../../hooks/useSession';
-import Bounce from './../../middleware/bounce'
+// import useSession from '../../hooks/useSession';
+import Bounce from '../../middleware/bounce'
 import { URL } from '@env'
 
-export default function SignIn() {
+function SignIn({ session, updateMyState }) {
 
   // const emailRef = useRef()
   // const passwordRef = useRef()
 
+    // Create a QueryClient instance
+  // const queryClient = new QueryClient();
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const [signError, setSignError] = useState('')
   // const [go, setGo] = useState(false)
   // const [login, setLogin] = useState(false)
   const [ feedback, setFeedback ] = useState('')
@@ -52,9 +60,9 @@ export default function SignIn() {
       // const { data } = useCallback(
       //   []
       // )
-  const { data, loading, fetchData } = useFetch()
+  const { loading, error, fetchData } = useFetch()
 
-  const { logIn, updateSession } = useSession()
+  // const { logIn, updateSession, testSession } = useSession()
   
   // console.log(data)
     // },[email,password]
@@ -62,7 +70,7 @@ export default function SignIn() {
     
     
   
-  const handleLogin = () => {
+  const handleLogin = async() => {
     // const email = emailRef.current.value
     // const password = passwordRef.current.value
 
@@ -70,7 +78,7 @@ export default function SignIn() {
 
     
     if (!email || !password) {
-      setError('Please fill in all fields.');
+      setSignError('Please fill in all fields.');
     } else {
 
       setFeedback('starting...')
@@ -79,7 +87,9 @@ export default function SignIn() {
       // console.log(password)
       // setLogin(true)
       // console.log(enter)
-      fetchData(
+      setModal(true)
+
+      const { identity, details, feedback } = await fetchData(
         { 
           method : 'POST',
           url : `${ URL }/jobs/php/index.php`,
@@ -92,19 +102,27 @@ export default function SignIn() {
       else
         setFeedback('just a moment...')
       
-        console.log(data)
-      if(data && data.identity){
+        // console.log(data)
 
-        setFeedback(data.feedback)
+        // testSession({'hey' : 'you'})
+        
 
-        updateSession()
+      if(identity){ //loggedIn successfully
+
+        setFeedback(feedback)
+        setModal(false)
+
+        // updateSession()
         // console.log(logIn)
-        // setTimeout(() => {         
-        //   pressNav('account')
-        // },2000)
+        updateMyState({'user' : identity, 'details' : details})
+        //cause re-render opening account screen
+
+        setTimeout(() => {         
+          pressNav('account')
+        },2000)
                
       }else{
-        setError(error + ' Try again') 
+        setSignError(error + ' Try again') 
       }  
       // Perform your login logic here, e.g., send data to a server.
       // If successful, navigate to another screen.
@@ -150,14 +168,14 @@ export default function SignIn() {
       setToggleOne(true)                  
     }
 
-    if(!(/\S+@\S+\.\S+/.test(text))){
+    if(!(/\S+@\S+\.\S+/.test(text))){ //reg ex test fn to match email syntax
       // emailRef.current.value = ""
       // console.log('validating...')
       // setError(() => 'wrong email format')
-        setError('wrong email format.');
+        setSignError('wrong email format.');
         setEmail('')
     }else{
-      setError('');
+      setSignError('');
       
     }
     setEmail(text)
@@ -167,14 +185,14 @@ export default function SignIn() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-        <RNModal
+        {/* <RNModal
           isVisible = {modal}
         >
           <View style = {{...styles.mediumWall, ...styles.shadow}}>
-            <Image source = { { uri :  images.home[3].img }} style = { {  ...styles.imageCenter }} />
+            <Image source = { require('./../../assets/load.gif') } style = { {  ...styles.imageCenter }} />
           </View>
         
-        </RNModal>
+        </RNModal> */}
         <View style={styles.bigCircle}></View>
         <View style={styles.smallCircle}></View>
         <View style={styles.centerizedView}>
@@ -188,9 +206,9 @@ export default function SignIn() {
                 size={50}
               />
                */}
-               <Image source = { { uri :  images.pin }} style = { {  ...styles.coverWall, borderRadius : 1000, ...styles.shadow }} />
+               <Image source = { { uri :  URL + '/' + images.pin }} style = { {  ...styles.coverWall, borderRadius : 1000, ...styles.shadow }} />
             </View>
-            <Text style={styles.loginTitleText}>Kitty Login</Text>
+            <Text style={styles.loginTitleText}>KITTY Login</Text>
             <View style={styles.hr}></View>
             <View style={styles.inputBox}>
               <Bounce style={{ ...styles.p, color : COLORS.gray }} text = "EMAIL"  ref={bounceOne}/>
@@ -227,11 +245,11 @@ export default function SignIn() {
               />
             </View>
             <View>
-              {error ? <Text style={styles.danger}>{error}</Text> : null}
+              {signError ? <Text style={styles.danger}>{signError}</Text> : ''}
             </View>
             <View>
               <LinearGradient colors={['#FF4B2B', '#FF4B2B', '#FF416C']} style={{ ...styles.loginMain, ...styles.center }}>
-                <TouchableOpacity onPress = {handleLogin}>
+                <TouchableOpacity onPress = {() => handleLogin}>
                   <Text style={styles.loginButtonText}>Login</Text>
                 </TouchableOpacity>
               </LinearGradient>
@@ -244,7 +262,7 @@ export default function SignIn() {
               </Text>
             </View>
             <View>
-              <TouchableWithoutFeedback onPress={ () => pressNav("create") }>
+              <TouchableWithoutFeedback onPress={ () => pressNav("register") }>
                 <Text style = {styles.a} >Register Now</Text>
                 
               </TouchableWithoutFeedback>
@@ -260,4 +278,12 @@ export default function SignIn() {
     </TouchableWithoutFeedback>
   );
 }
+
+const mapStateToProps = (state) => ({
+  session: state.session,
+});
+
+const mapDispatchToProps = { updateMyState };
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
 

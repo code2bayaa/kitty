@@ -12,7 +12,7 @@ import {
 // import { useNavigation } from '@react-navigation/native'
 // import RNModal from 'react-native-modal'
 import LinearGradient from 'react-native-linear-gradient';
-
+import { URL } from '@env'
 import styles, { COLORS } from '../../../styles'
 import useFetch from '../../../hooks/useFetch';
 import Bounce from '../../../middleware/bounce'
@@ -45,6 +45,8 @@ export default Employee = ({ setModal, pressNav }) => {
   const bounceFour = createRef();
   const bounceFive = createRef();
 
+  const { fetchData, loading } = useFetch()
+
   // const navigation = useNavigation()
   // const [modal, setModal] = useState(false)
 
@@ -54,7 +56,7 @@ export default Employee = ({ setModal, pressNav }) => {
   //   navigation.navigate(page)
   // }
 
-  const handleSignUp = () => {
+  const handleSignUp = async() => {
 
     const email = emailRef.current.value
     const telephone = telephoneRef.current.value
@@ -69,7 +71,21 @@ export default Employee = ({ setModal, pressNav }) => {
       // Perform your login logic here, e.g., send data to a server.
       // If successful, navigate to another screen.
       setModal(true)
-      const { data, error, loading } = useFetch({ method : 'POST', data : {  'create_employer' : true, 'institution' : name, 'password' : password, 'email' : email, 'telephone' : telephone }})
+
+      const { success, feedback } = await fetchData({
+        method : 'POST',
+        query : {  'create_employer' : true, 'institution' : name, 'password' : password, 'email' : email, 'telephone' : telephone },
+        url :`${ URL }/jobs/php/index.php`
+      })
+
+      //In PHP
+      /*
+      * @ OBJECT [
+        'create_employer' => true,
+        'institution' => $name
+      ]
+
+      */
       
       if(loading)
         setModal(true)
@@ -77,13 +93,13 @@ export default Employee = ({ setModal, pressNav }) => {
         setModal(false)
 
       // if(data)
-      console.log(data)
-      sessionStorage.setItem('user','employer')
-      ToastAndroid.show(data.feedback,2000)
-      if(data.success){
+      console.log(feedback)
+      // sessionStorage.setItem('user','employer')
+      ToastAndroid.show(feedback,2000)
+      if(success){
         setTimeout(() => {
           setModal(false)
-          pressNav('account')
+          pressNav('signIn')
         }, 1000)
       }else{
           setError(error + ' Try again');
@@ -237,8 +253,8 @@ export default Employee = ({ setModal, pressNav }) => {
             }}  
           />
         </View>
-        {error ? <Text style={styles.danger}>{error}</Text> : null}
-        <TouchableOpacity  onPress = {handleSignUp}>
+        { error ? <Text style={styles.danger}>{error}</Text> : null }
+        <TouchableOpacity  onPress = {() => handleSignUp}>
           <View>
             <LinearGradient
                 colors={['#FF4B2B', '#FF4B2B', '#FF416C']} // Define your gradient colors

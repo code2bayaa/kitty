@@ -15,6 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import styles, { COLORS } from '../../../styles'
 import useFetch from '../../../hooks/useFetch';
 import Bounce from '../../../middleware/bounce'
+import { URL } from '@env'
 
 export default Employee = ({ setModal, pressNav }) => {
   // const [email, setEmail] = useState('')
@@ -27,11 +28,14 @@ export default Employee = ({ setModal, pressNav }) => {
   const passwordRef = useRef()
   const passwordRRef = useRef()
   const nameRef = useRef()
+  
 
-  const handleSignUp = () => {
+  const { fetchData, loading } = useFetch()
+
+  const handleSignUp = async() => {
 
     const email = emailRef.current.value
-    const password = passwordRef.current.value
+    const password = passwordRef.current.value //1234
     const passwordR = passwordRRef.current.value
     const name = nameRef.current.value
 
@@ -44,20 +48,24 @@ export default Employee = ({ setModal, pressNav }) => {
       
       setModal(true)
 
-      const { data, error, loading } = useFetch({ method : 'POST', data : {  'create' : true, 'name' : name, 'password' : password, 'email' : email }})
-      
+      const { success, feedback } = await fetchData({
+        method : 'POST',
+        query : { 'create' : true, 'name' : name, 'password' : password, 'email' : email },
+        url :`${ URL }/jobs/php/index.php`
+      })
+            
       if(loading)
         setModal(true)
       else
         setModal(false)
       // if(data)
-      console.log(data)
-      sessionStorage.setItem('user','employee')
-      ToastAndroid.show(data.feedback,2000)
-      if(data.success){
+      console.log(feedback)
+      // sessionStorage.setItem('user','employee')
+      ToastAndroid.show(feedback,2000)
+      if(success){
         setTimeout(() => {
           setModal(false)
-          pressNav('account')
+          pressNav('signIn')
         }, 1000)
       }else{
         // setError(error + ' Try again')
@@ -193,8 +201,8 @@ export default Employee = ({ setModal, pressNav }) => {
               secureTextEntry={true}
               // placeholder='PASSWORD'
               textContentType='password'
-              ref = {passwordRef}
-              // value = {password}
+              // ref = {passwordRef}
+              value = {password}
               onChangeText = {(text) => {
                 if(!text){
                   bounceThree.current.updateText(toggleThree)
@@ -234,7 +242,7 @@ export default Employee = ({ setModal, pressNav }) => {
           </View>
         </TouchableWithoutFeedback>
         {error ? <Text style={styles.danger}>{error}</Text> : null}
-        <TouchableOpacity  onPress = {handleSignUp}>
+        <TouchableOpacity  onPress = {() => handleSignUp}>
           <View>
             <LinearGradient
                 colors={['#FF4B2B', '#FF4B2B', '#FF416C']} // Define your gradient colors

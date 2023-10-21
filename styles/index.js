@@ -32,6 +32,8 @@ export const SIZES = {
     xLarge: 24,
     xxLarge: 32,
 };
+
+
 const styles = StyleSheet.create({
     body: {
         // width: 300,
@@ -75,9 +77,9 @@ const styles = StyleSheet.create({
         alignItems : 'flex-end'
     },
     imageCenter : {
-        height : 250,
+        // height : 250,
         width : 350,
-        top : '1%',
+        // top : '1%',
         // left : '5%',
         objectFit : 'contain'
     },
@@ -104,7 +106,8 @@ const styles = StyleSheet.create({
     },
     coverWall : {
         width :'100%',
-        height : "100%",
+        height : "100%"
+        // overflowY : 'auto'
         // margin : '1%'
     },
     mediumWall: {
@@ -116,8 +119,9 @@ const styles = StyleSheet.create({
     },
     minimumWall : {
         height: "auto",
-        width: "48%",
-        margin : "1%"        
+        width: "45%",
+        marginRight : "1%",
+        marginTop : "1%"        
     },
     horizontalWallFlat : {
         display : 'flex',
@@ -135,8 +139,8 @@ const styles = StyleSheet.create({
         flexWrap : 'wrap',
         overflowX : 'auto',
         overflowY : 'hidden',
-        height : 500,
-        width : 400
+        // height : 500,
+        // width : 400
         // gap: 10
     },
     centerStandardWall : {
@@ -242,7 +246,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         position: 'relative',
-      },
+        padding: 16,
+    },
+    navigationContainer: {
+      backgroundColor: '#ecf0f1',
+    },
+    paragraph: {
+      padding: 16,
+      fontSize: 15,
+      textAlign: 'center',
+    },
       bigCircle: {
         width: Dimensions.get('window').height * 0.7,
         height: Dimensions.get('window').height * 0.7,

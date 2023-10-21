@@ -5,6 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import images from '../constants/gallery'
 import styles from '../styles'
 import FadedText from '../screens/home/walls/fadedText'
+import { URL } from '@env'
 
 class ImageFader extends Component {
     
@@ -22,7 +23,7 @@ class ImageFader extends Component {
   
     componentDidMount() {
       // console.log('component starts...')
-      // Set up the interval to change images every 2 seconds
+      // Set up the interval to change images every 7 seconds
       this.interval = setInterval(this.changeImage, 7000);
     }
   
@@ -60,6 +61,9 @@ class ImageFader extends Component {
         this.setState((currentState) => {
           return { ...currentState, currentIndex : nextIndex }
         });
+
+        // { key : 2, value : 'you' }
+
         fadeAnim.setValue(0);
         // this.currentIndex = nextIndex
         // console.log('next state ' + this.state.currentIndex)
@@ -67,7 +71,7 @@ class ImageFader extends Component {
         // Animate the fade-in of the next image
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: 10, // 10 seconds //fade time for data to appear fully
+          duration: 10, // 10 //fade time for data to appear fully
           easing: Easing.linear,
           useNativeDriver: true,
         }).start();
@@ -91,10 +95,11 @@ class ImageFader extends Component {
       // Pass the currentImageIndex to the callback prop
       // this.props.onStateChange(currentImageIndex);
   
+      // console.log(images.name[currentIndex].img)
       return (
         <View style = {{...styles.wall}}>
           <ImageBackground
-              source = { { uri : images.name[currentIndex].img }}
+              source = { { uri : URL + '/' + images.name[currentIndex].img }}
               style={ { ...styles.coverWall } }
           >
             <LinearGradient

@@ -2,6 +2,7 @@ import { View, Text, Image } from 'react-native'
 import React from 'react'
 import styles from '../../../styles'
 import images from '../../../constants/gallery'
+import { URL } from '@env'
 
 // import Banner from '../../../middleware/banner'
 
@@ -9,8 +10,8 @@ export default function About() {
   return (
     <View style = { { ...styles.mediumWall, ...styles.center } }>
 
-      <Image source = { { uri :  images.logo }} style = { { height : 100, width : 100 }} />
-      <Text style = { styles.h1 }>About Us</Text>
+      <Image source = { { uri :  URL + '/' + images.logo }} style = { { height : 100, width : 100 }} />
+      <Text style = { styles.h1 }>About Us.</Text>
       {/* <Text style = { styles.h2 }>Welcome to Careers Kitty</Text> */}
       {/* <Banner /> */}
       <Text style = { styles.p }>

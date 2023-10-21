@@ -1,4 +1,12 @@
-import { ScrollView, View, Text, SafeAreaView, StatusBar, ImageBackgroundComponent } from 'react-native'
+import { 
+    ScrollView,
+     View,
+      Text,
+       SafeAreaView,
+        StatusBar,
+         ImageBackgroundComponent
+         } from 'react-native'
+         
 import React, { useState } from 'react'
 // import type {StatusBarStyle} from 'react-native';
 
@@ -7,6 +15,7 @@ import Create from './walls/create'
 import Welcome from './walls/welcome'
 import About from './walls/about'
 import Contact from './walls/contact'
+
 import styles from '../../styles'
 
 const Home = () => {

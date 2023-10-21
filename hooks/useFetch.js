@@ -10,9 +10,9 @@ const useFetch = () => {
   // const url = 'http://192.168.42.73/jobs/php/test.php'
 
   
-  const fetchData = useCallback(
-    async({ method, query, url, go }) => {
+  const fetchData = async({ method, query, url }) => {
       // console.log(JSON.parse(query.password))
+      console.log(url)
     try {
 
       // console.log('go ' + go)
@@ -39,19 +39,22 @@ const useFetch = () => {
 
       // console.log(options)
       // console.log(url)
+      console.log('response')
       const response = await fetch(url,options);
+      console.log('response')
       // console.log('and then..')
       // if (!response.ok) {
       //   throw new Error('Network response was not ok');
       // }
       const jsonData = await response.json();
 
-      
-      // console.log(jsonData)
+      console.log('json')
+      console.log(jsonData)
       // console.log(await response.json())
       
-      setData(jsonData)
+      // setData(jsonData)
       setLoading(false);
+      return jsonData
       
 
     } catch (error) {
@@ -67,8 +70,7 @@ const useFetch = () => {
     //   // Handle error
     //   console.error(error);
     // });
-  },
-  [])
+  }
   
 
   // useEffect(() => {

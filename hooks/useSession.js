@@ -1,5 +1,5 @@
 // import { View, Text } from 'react-native'
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import useFetch from './useFetch'
 import { URL } from '@env'
 
@@ -12,11 +12,11 @@ const useSession = () => {
 
     // console.log(logIn)
 
-    //Use useEffect to avoid too many re-renders
-    // useEffect(() => {
+    // Use useEffect to avoid too many re-renders
+    // useEffect(async() => {
     //     // if(check)
     //     //     setLogin(data)
-    //     fetchData(
+    //     await fetchData(
     //         {
     //             url : `${ URL }/jobs/php/index.php`,
     //             // go : true,
@@ -24,9 +24,11 @@ const useSession = () => {
     //             query : JSON.stringify({ 'user' : true })
     //         }            
     //     )
+    //     console.log('fetch')
+    //     console.log(data)
 
         
-    // }, [fetchData])
+    // }, [fetchData, URL, data])
     // }
     // console.log('data')
     // console.log(data)
@@ -37,21 +39,30 @@ const useSession = () => {
         
     // )
 
-    const updateSession = () => {
-        fetchData(
-            {
-                url : `${ URL }/jobs/php/index.php`,
-                // go : true,
-                method : 'POST',
-                query : JSON.stringify({ 'user' : true })
-            }            
-        )
-        console.log('data fetched')
-        console.log(data)
-        setLogin(data)
+    //Add the async to show DATA
+    const updateSession = useCallback(
+        async() => {
+            setLogin(await fetchData(
+                {
+                    url : `${ URL }/jobs/php/index.php`,
+                    // go : true,
+                    method : 'POST',
+                    query : JSON.stringify({ 'user' : true })
+                }            
+            ))
+
+        },[]
+    )
+    
+    const testSession = (obj) => {
+        setLogin((currObj) => obj)
     }
 
-    return { logIn, updateSession}
+    // useEffect(() =>  setLogin(data),[data])
+
+    console.log('session')
+    console.log(logIn)
+    return { logIn, updateSession, testSession}
 }
 
 export default useSession

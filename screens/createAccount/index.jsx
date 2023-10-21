@@ -20,13 +20,32 @@ import styles, { COLORS } from '../../styles'
 import Employers from './walls/employers';
 import Employee from './walls/employee'
 import images from '../../constants/gallery'
-
+import { URL } from '@env'
+// import useLazy from '../../hooks/useLazy';
 
 export default function App() {
 
   
   const [modal, setModal] = useState(false)
 
+  // const [calculator, setCalculator] = useState(0)
+
+  
+
+  // const changeCalculator = () => {
+  //   setCalculator(2)
+  // }
+
+  // return (
+  //   <View>
+  //     <Text>{ calculator }</Text>
+  //     <Button onPress = {changeCalculator}>Click</Button>
+  //   </View>
+  // )
+
+  //init modal === false
+  //change modal, call setModal
+  // setModal(true) || modal === true
   const navigation = useNavigation()
 
   const pressNav = (page) => {
@@ -93,10 +112,12 @@ export default function App() {
     }
   }
 
+  // console.log(URL + '/' + images.home[4].img)
+  
   return (
     <ScrollView style = {{ ...styles.body, ...styles.wall }}>
       <ImageBackground
-        source = { { uri : images.home[4].img }}
+        source = { { uri : URL + '/' + images.home[4].img }}
         style={ { ...styles.wall } }
       >
         <LinearGradient
@@ -108,7 +129,7 @@ export default function App() {
               isVisible = {modal}
             >
               <View style = {{...styles.mediumWall, ...styles.borderShadow}}>
-                <Image source = { { uri :  images.home[3].img }} style = { { ...styles.imageCenter }} />
+                <Image source = { { uri :  URL + '/' + images.home[3].img }} style = { { ...styles.imageCenter }} />
               </View>
             
             </RNModal>

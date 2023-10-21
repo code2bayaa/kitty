@@ -2,39 +2,40 @@
     "images" : {
         "home" : [
             {
-                "img" : "http://192.168.42.73/jobs/image/image2.webp",
+                "img" : "jobs/image/image2.webp",
                 "name" : "first"
             },
             {
-                "img" : "http://192.168.42.73/jobs/image/image3.jpg",
+                "img" : "jobs/image/image3.jpg",
                 "name" : "second"
             },
             {
-                "img" : "http://192.168.42.73/jobs/image/jobs.png",
+                "img" : "jobs/image/jobs.png",
                 "name" : "third"                
             },
             {
-                "img" : "http://192.168.42.73/jobs/image/load.gif",
+                "img" : "jobs/image/load.gif",
                 "name" : "fourth"                
             },
             {
-                "img" : "http://192.168.42.73/jobs/image/employer.jpg",
+                "img" : "jobs/image/employer.jpg",
                 "name" : "fifth"                
             }
         ],
-    "logo" : "http://192.168.42.73/jobs/image/apple-touch-icon.png",
-    "pin" : "http://192.168.42.73/jobs/image/kitty.png",
+    "logo" : "jobs/image/apple-touch-icon.png",
+    "pin" : "jobs/image/kitty.png",
+    "profile" : "jobs/image/avatar.jpg",
     "name" : [
         { 
-            "img" : "http://192.168.42.73/jobs/image/image.jpeg",
+            "img" : "jobs/image/image.jpeg",
             "name" : "first"
         },
         {
-            "img" : "http://192.168.42.73/jobs/image/image.webp",
+            "img" : "jobs/image/image.webp",
             "name" : "second"
         },
         {
-            "img" : "http://192.168.42.73/jobs/image/image2.webp",
+            "img" : "jobs/image/image2.webp",
             "name" : "third"
         }
 
