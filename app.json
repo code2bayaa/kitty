@@ -1,0 +1,7 @@
+{
+  "name": "KITTY",
+  "displayName": "KITTY",
+  "plugins": [
+    "expo-router"
+  ]
+}

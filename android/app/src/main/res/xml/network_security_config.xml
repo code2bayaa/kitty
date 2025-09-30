@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <!-- Add your trusted certificates here if needed -->
+        </trust-anchors>
+    </base-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">192.168.42.73</domain>
+        <domain includeSubdomains="true">http://192.168.42.73</domain>
+        <domain includeSubdomains="true">https://192.168.42.73</domain>
+        <domain includeSubdomains="true">169.254.176.142</domain>
+        <domain includeSubdomains="true">http://192.168.42.89</domain>
+        <domain includeSubdomains="true">https://192.168.42.89</domain>
+    </domain-config>
+</network-security-config>

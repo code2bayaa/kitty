@@ -1,0 +1,44 @@
+{
+    "images" : {
+        "home" : [
+            {
+                "img" : "jobs/image/image2.webp",
+                "name" : "first"
+            },
+            {
+                "img" : "jobs/image/image3.jpg",
+                "name" : "second"
+            },
+            {
+                "img" : "jobs/image/jobs.png",
+                "name" : "third"                
+            },
+            {
+                "img" : "jobs/image/load.gif",
+                "name" : "fourth"                
+            },
+            {
+                "img" : "jobs/image/employer.jpg",
+                "name" : "fifth"                
+            }
+        ],
+    "logo" : "jobs/image/apple-touch-icon.png",
+    "pin" : "jobs/image/kitty.png",
+    "profile" : "jobs/image/avatar.jpg",
+    "name" : [
+        { 
+            "img" : "jobs/image/image.jpeg",
+            "name" : "first"
+        },
+        {
+            "img" : "jobs/image/image.webp",
+            "name" : "second"
+        },
+        {
+            "img" : "jobs/image/image2.webp",
+            "name" : "third"
+        }
+
+    ]
+    }
+}
